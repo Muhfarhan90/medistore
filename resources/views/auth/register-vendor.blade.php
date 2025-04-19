@@ -38,9 +38,9 @@
                             </div>
                             <form class="user" method="POST" action="{{ route('register') }}">
                                 @csrf
-                                <input type="hidden" name="role_id" value="3">
+                                <input type="hidden" name="role_id" value="2">
                                 <div class="form-group">
-                                    <label for="name">Nama</label>
+                                    <label for="name">Nama Vendor/Toko</label>
                                     <input id="name" type="text"
                                         class="form-control form-control-user @error('name') is-invalid @enderror"
                                         name="name" value="{{ old('name') }}" required autocomplete="name"
@@ -85,42 +85,7 @@
                                             autocomplete="new-password" placeholder="Repeat Password">
                                     </div>
                                 </div>
-                                {{-- customer --}}
-                                <div class="form-group">
-                                    <label for="date_of_birth">Tanggal Lahir</label>
-                                    <input id="date_of_birth" type="date"
-                                        class="form-control form-control-user @error('date_of_birth') is-invalid @enderror"
-                                        name="date_of_birth" value="{{ old('date_of_birth') }}" required
-                                        autocomplete="date_of_birth" onfocus="(this.type='date')"
-                                        onblur="(this.type='text')">
-                                    @error('date_of_birth')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender">Jenis Kelamin</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input @error('gender') is-invalid @enderror"
-                                                type="radio" name="gender" id="male" value="male"
-                                                {{ old('gender') == 'male' ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="male">Laki-laki</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input @error('gender') is-invalid @enderror"
-                                                type="radio" name="gender" id="female" value="female"
-                                                {{ old('gender') == 'female' ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="female">Perempuan</label>
-                                        </div>
-                                    </div>
-                                    @error('gender')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                {{-- vendor --}}
                                 <div class="form-group">
                                     <label for="address">Alamat</label>
                                     <input id="address" type="address"
@@ -167,18 +132,20 @@
                                         </span>
                                     @enderror
                                 </div>
+
                                 <div class="form-group">
                                     <label for="paypal_id">PayPal ID</label>
-                                    <input id="paypal_id" type="text"
+                                    <input id="paypal_id" type="string"
                                         class="form-control form-control-user @error('paypal_id') is-invalid @enderror"
                                         name="paypal_id" value="{{ old('paypal_id') }}" required
-                                        autocomplete="paypal_id" placeholder="PayPal ID">
+                                        autocomplete="paypal_id" placeholder="PayPal Email">
                                     @error('paypal_id')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
+
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </button>
@@ -192,16 +159,16 @@
                             </form>
                             <hr>
                             {{-- <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a> --}}
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div> --}}
                             <div class="text-center">
-                                <a class="small" href="{{ route('login') }}"">Sudah punya akun? Login!</a>
+                                <a class="small" href="{{ route('login') }}">Sudah punya akun? Login</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     </div>
 

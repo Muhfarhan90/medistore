@@ -1,0 +1,29 @@
+@extends('layouts.landing')
+
+@section('title', 'Home')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Medistore</h1>
+            <p>Belanja alat kesehatan jadi mudah, cepat, dan aman bersama Medistore! 💊📦.</p>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                @foreach ($products as $product)
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="{{ asset('storage/' . $product['image']) }}" class="card-img-top"
+                                alt="{{ $product['name'] }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product['name'] }}</h5>
+                                <p class="card-text">{{ $product['description'] }}</p>
+                                <a href="{{ route('products.show', $product['id']) }}" class="btn btn-primary">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+@endsection
