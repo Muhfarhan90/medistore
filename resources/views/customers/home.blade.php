@@ -11,7 +11,7 @@
         <div class="col-md-3">
             <!-- Search Bar -->
             <div class="mb-4">
-                <form action="{{ route('products') }}" method="GET">
+                <form action="{{ route('products.view') }}" method="GET">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Cari produk..."
                             value="{{ request('search') }}">
@@ -26,7 +26,7 @@
                 <ul class="list-group">
                     @foreach ($categories as $category)
                         <li class="list-group-item">
-                            <a href="{{ route('products', ['category' => $category->id]) }}" class="text-success">
+                            <a href="{{ route('products.view', ['category' => $category->id]) }}" class="text-success">
                                 {{ $category->name }}
                             </a>
                         </li>

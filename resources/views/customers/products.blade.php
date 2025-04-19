@@ -1,28 +1,58 @@
 @extends('layouts.landing')
 
-@section('title', 'Home')
+@section('title', 'Products')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Fake Shop</h1>
-            <p>Belanja online murah, aman dan nyaman dari berbagai toko online di Indonesia.</p>
-        </div>
-        <div class="col-md-12">
-            <div class="row">
-                @foreach ($products as $product)
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <img src="{{ $product['image'] }}" class="card-img-top" alt="{{ $product['name'] }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $product['name'] }}</h5>
-                                <p class="card-text">{{ $product['description'] }}</p>
-                                <a href="{{ route('products.show', $product['id']) }}" class="btn btn-primary">Detail</a>
+    <div class="row mt-4">
+        <h1>Produk</h1>
+            <!-- Bagian Kanan: Search dan Kategori -->
+            <div class="col-md-3">
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <form action="{{ route('products.view') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari produk..."
+                                value="{{ request('search') }}">
+                            <button class="btn btn-success" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Kategori -->
+                <div>
+                    <h5 class="text-success">Kategori</h5>
+                    <ul class="list-group">
+                        @foreach ($categories as $category)
+                            <li class="list-group-item">
+                                <a href="{{ route('products.view', ['category' => $category->id]) }}" class="text-success">
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bagian Kiri: Produk -->
+            <div class="col-md-9">
+                <div class="row">
+                    @foreach ($products as $product)
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="{{ asset('storage/' . $product['image']) }}" class="card-img-top"
+                                    alt="{{ $product['name'] }}" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">{{ $product['name'] }}</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">
+                                        {{ Str::limit($product['description'], 50) }}
+                                    </p>
+                                    <a href="{{ route('products.show', $product['slug']) }}"
+                                        class="btn btn-success">Detail</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
     </div>
 @endsection

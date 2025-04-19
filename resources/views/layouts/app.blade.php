@@ -66,7 +66,7 @@
                     <span>Categories</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('products') }}">
+                <a class="nav-link" href="{{ route('products.index') }}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Products</span></a>
             </li>

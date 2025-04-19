@@ -11,7 +11,10 @@
                     <a class="nav-link text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" aria-current="page" href="{{ route('products') }}">Products</a>
+                    <a class="nav-link text-white" aria-current="page" href="{{ route('products.view') }}">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" aria-current="page" href="{{ route('cart.view') }}">Keranjang</a>
                 </li>
             </ul>
             @auth

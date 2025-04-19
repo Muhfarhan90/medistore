@@ -16,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('home', 'show', 'view');
     }
 
     /**
@@ -24,9 +24,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function view(Request $request)
     {
-        return view('dashboard');
+        $query = Product::query();
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        $products = $query->get();
+        $categories = Category::all();
+        return view('customers.products', ['products' => $products, 'categories' => $categories]);
     }
 
     public function home(Request $request)
@@ -49,7 +61,7 @@ class HomeController extends Controller
     {
         // Cari produk berdasarkan slug
         $product = Product::where('slug', $slug)->firstOrFail();
-    
+
         // Kirim data produk ke view
         return view('customers.show', ['product' => $product]);
     }
@@ -58,5 +70,4 @@ class HomeController extends Controller
         $customer = Auth::user();
         return view('customers.profil', ['customer' => $customer]);
     }
-    
 }
