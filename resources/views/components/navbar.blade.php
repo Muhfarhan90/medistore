@@ -1,27 +1,29 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg" style="background-color: #28a745;">
     <div class="container">
-        <a class="navbar-brand" href="#">Medistore</a>
+        <a class="navbar-brand text-white fw-bold" href="#">Medistore</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon" style="background-color: white;"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+                    <a class="nav-link text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('products') }}">Products</a>
+                    <a class="nav-link text-white" aria-current="page" href="{{ route('products') }}">Products</a>
                 </li>
-
             </ul>
             @auth
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {{ auth()->user()->name }}
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="dropdown-item" href="{{ route('profile') }}">Profil Saya</a>
+                        </li>
                         <li class="nav-item">
                             <a class="dropdown-item" href="{{ route('transactions') }}">Transaksi</a>
                         </li>
@@ -31,13 +33,12 @@
                                 <button type="submit" class="dropdown-item">Logout</button>
                             </form>
                         </li>
-
                     </ul>
                 </div>
             @else
                 <div class="d-flex">
-                    <a href="{{ route('login') }}" class="btn btn-primary me-2">Login</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                    <a href="{{ route('login') }}" class="btn btn-light me-2">Login</a>
+                    <a href="{{ route('register') }}" class="btn btn-light">Register</a>
                 </div>
             @endauth
         </div>

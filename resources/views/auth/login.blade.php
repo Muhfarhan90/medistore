@@ -35,8 +35,9 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
-
+                            <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('style/img/login.jpg') }}" alt="" class="img-fluid "
+                                    style="height: 70%; width: 70%; ">
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
@@ -70,12 +71,13 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                <input type="checkbox" class="custom-control-input" name="remember"
+                                                    id="remember" {{ old('remember') ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="remember">Remember
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-success btn-user btn-block">
                                             Login
                                         </button>
                                         {{-- <hr> --}}
@@ -91,10 +93,10 @@
                                         <a class="small" href="{{route('password.request')}}">Lupa Password</a>
                                     </div> --}}
                                     <div class="text-center">
-                                        <a class="small" href="{{route('register')}}">Buat Akun Customer!</a>
+                                        <a class="small" href="{{ route('register') }}">Buat Akun Customer!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="{{route('register.vendor')}}">Buat Akun Vendor!</a>
+                                        <a class="small" href="{{ route('register.vendor') }}">Buat Akun Vendor!</a>
                                     </div>
                                 </div>
                             </div>

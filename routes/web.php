@@ -42,9 +42,10 @@ Route::put('categories/{category}', [CategoryController::class, 'update'])->name
 Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
 
-// Landing
+// customer
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/products', [HomeController::class, 'home'])->name('products');
-Route::get('/products/{id}', [HomeController::class, 'show'])->name('products.show');
+Route::get('/products/{slug}', [HomeController::class, 'show'])->name('products.show');
 Route::get('transactions', [HomeController::class, 'transactions'])->name('transactions');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
