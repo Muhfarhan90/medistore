@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,29 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        if (Auth::user()->role === 'superadmin') {
+            return '/admin/dashboard';
+        } elseif (Auth::user()->role === 'customer') {
+            return '/home';
+        }
+
+        // Default redirect jika role tidak terdeteksi
+        return '/home';
+    }
+
+    protected function authenticated($request, $user)
+    {
+
+        if ($user->role->name === 'superadmin') {
+            return redirect('/admin/dashboard');
+        } elseif ($user->role->name === 'customer') {
+            return redirect('/home');
+        }
+
+        return redirect('/home'); // default
+    }
 
     /**
      * Create a new controller instance.
