@@ -18,10 +18,16 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //Menampilkan daftar transaksi
+        //Mendapatkan daftar transaksi untuk admin
+        if (Auth::user()->role->name == 'superadmin') {
+            $transactions = Transaction::with('user')->get();
+            return view('transactions.index-admin', ['transactions' => $transactions]);
+        }
+        //Menampilkan daftar transaksi untuk customer
         $transactions = Transaction::where('user_id', Auth::id())->with('details.product')->get();
         return view('transactions.index', ['transactions' => $transactions]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -182,6 +188,11 @@ class TransactionController extends Controller
 
     public function detail(string $id)
     {
+        // Menampilkan detail transaksi untuk admin
+        if (Auth::user()->role->name == 'superadmin') {
+            $transaction = Transaction::with('user', 'details.product')->findOrFail($id);
+            return view('transactions.detail-admin', ['transaction' => $transaction]);
+        }
         // Menampilkan detail transaksi
         $transaction = Transaction::with('details.product')->findOrFail($id);
         return view('transactions.detail', ['transaction' => $transaction]);

@@ -21,7 +21,8 @@ Route::get('/register-vendor', function () {
 })->name('register.vendor');
 // Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions');
+Route::get('/admin/transactions/{transaction}', [TransactionController::class, 'detail'])->name('admin.transactions.detail');
 // Users
 Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('users.create');
@@ -37,7 +38,6 @@ Route::get('/admin/products/{product}/edit', [ProductController::class, 'edit'])
 Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('products.update');
 Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
 Route::delete('admin/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-
 
 // Categories
 Route::get('admin/categories', [CategoryController::class, 'index'])->name('categories.index');
