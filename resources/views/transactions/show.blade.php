@@ -42,7 +42,7 @@
                 {{-- Checkout Midtrans --}}
                 <button id="pay-button" class="btn btn-success">Bayar Prepaid</button>
                 <!-- Form untuk Checkout Tunai -->
-                {{-- <form action="{{ route('transactions.cash') }}" method="POST">
+                {{-- <form action="{{ route('transactions.checkout') }}" method="POST">
                     @csrf
                     <input type="hidden" name="payment_type" value="cash">
                     <button type="submit" class="btn btn-primary">Bayar Tunai</button>

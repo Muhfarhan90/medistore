@@ -26,8 +26,13 @@ class TransactionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
     public function checkout(Request $request)
     {
+        $request->validate([
+            'payment_type' => 'required|in:prepaid,cash',
+        ]);
+
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
@@ -55,8 +60,8 @@ class TransactionController extends Controller
             'order_id' => 'TRX-' . time(),
             'user_id' => Auth::id(),
             'gross_amount' => $grossAmount,
-            'payment_type' => 'prepaid',
-            'status' => 'pending',
+            'payment_type' => $request->payment_type,
+            'status' => $request->payment_type === 'cash' ? 'pending' : 'pending', // Status awal untuk cash dan prepaid
         ]);
 
         // Simpan detail transaksi
@@ -69,6 +74,21 @@ class TransactionController extends Controller
             ]);
         }
 
+        // Kosongkan keranjang
+        session()->forget('cart');
+
+        // Jika pembayaran menggunakan cash (postpaid)
+        if ($request->payment_type === 'cash') {
+            return redirect()->route('transactions.success', $transaction->id)
+                ->with('success', 'Pesanan Anda berhasil dibuat. Silakan lakukan pembayaran tunai.');
+        }
+
+        // Jika pembayaran menggunakan Midtrans (prepaid)
+        return $this->processMidtransPayment($transaction, $cart);
+    }
+
+    protected function processMidtransPayment($transaction, $cart)
+    {
         // Konfigurasi Midtrans
         Config::$serverKey = config('midtrans.serverKey');
         Config::$isProduction = config('midtrans.isProduction');
@@ -79,7 +99,7 @@ class TransactionController extends Controller
         $params = [
             'transaction_details' => [
                 'order_id' => $transaction->order_id,
-                'gross_amount' => (int) $grossAmount,
+                'gross_amount' => (int) $transaction->gross_amount,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
@@ -96,7 +116,6 @@ class TransactionController extends Controller
         ];
 
         try {
-            // dd($params);
             $snapToken = Snap::getSnapToken($params);
             if (!$snapToken) {
                 throw new \Exception('Snap Token gagal dibuat.');
@@ -106,10 +125,7 @@ class TransactionController extends Controller
             $transaction->snap_token = $snapToken;
             $transaction->save();
 
-            // Kosongkan keranjang
-            session()->forget('cart');
-
-            return view('transactions.show', ['transaction' => $transaction]);
+            return view('transactions.show', ['transaction' => $transaction, 'snapToken' => $snapToken]);
         } catch (\Exception $e) {
             return redirect()->route('cart.view')->with('error', 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage());
         }

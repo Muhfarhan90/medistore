@@ -10,6 +10,7 @@
     @elseif (session('error'))
         <div class="alert alert-danger" role="alert">
             {{ session('error') }}
+        </div>
     @endif
 
     <div class="container mt-5">
@@ -24,7 +25,6 @@
             @endauth
         @else
             <div class="table-responsive">
-
                 <table class="table">
                     <thead>
                         <tr>
@@ -76,12 +76,18 @@
             </div>
             <div class="d-flex justify-content-between mt-3">
                 <!-- Form untuk Checkout -->
-                <form action="{{ route('transactions.checkout', $id) }}" method="POST">
+                <form action="{{ route('transactions.checkout') }}" method="POST">
                     @csrf
+                    <div class="mb-3">
+                        <label for="payment_type" class="form-label">Metode Pembayaran</label>
+                        <select name="payment_type" id="payment_type" class="form-select" required>
+                            <option value="prepaid">Bayar dengan Midtrans</option>
+                            <option value="postpaid">Bayar Tunai</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-success">Checkout</button>
                 </form>
                 <a href="{{ route('products.view') }}" class="btn btn-success">Tambah Produk</a>
-
             </div>
         @endif
     </div>
