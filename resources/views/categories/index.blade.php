@@ -21,7 +21,7 @@
 
     <div class="card overflow-hidden">
 
-        <table class="table m-0">
+        <table class="table table-responsive m-0">
             <thead>
                 <tr>
                     <td>#</td>

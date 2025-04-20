@@ -74,7 +74,7 @@
                     ) }}
                 </h4>
             </div>
-            <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex justify-content-between align-items-end mt-3">
                 <!-- Form untuk Checkout -->
                 <form action="{{ route('transactions.checkout') }}" method="POST">
                     @csrf
