@@ -47,11 +47,11 @@
                             @endif
                         </td>
                         <td>
-                            @if ($transaction->shipping_status === 'pending')
+                            @if ($transaction->status === 'pending')
                                 <span class="badge bg-warning text-dark">Belum Dikirim</span>
-                            @elseif ($transaction->shipping_status === 'shipped')
+                            @elseif ($transaction->status === 'success')
                                 <span class="badge bg-primary">Dikirim</span>
-                            @elseif ($transaction->shipping_status === 'delivered')
+                            @elseif ($transaction->status === 'delivered')
                                 <span class="badge bg-success">Diterima</span>
                             @else
                                 <span class="badge bg-secondary">Tidak Diketahui</span>
@@ -59,10 +59,17 @@
                         </td>
                         <td>
                             @if ($transaction->status === 'pending')
+                                {{-- Tombol Batalkan --}}
                                 <form action="{{ route('transactions.cancel', $transaction->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm">Batalkan</button>
                                 </form>
+
+                                {{-- Tombol Bayar --}}
+                                <a href="{{ route('transactions.show', $transaction->id) }}" class="btn btn-success btn-sm">Bayar</a>
+                            @elseif ($transaction->status === 'success')
+                                {{-- Tombol Lihat Detail --}}
+                                <a href="{{ route('transactions.detail', $transaction->id) }}" class="btn btn-primary btn-sm">Lihat Detail</a>
                             @else
                                 <button class="btn btn-secondary btn-sm" disabled>Tidak Tersedia</button>
                             @endif

@@ -9,9 +9,9 @@
             <div class="col-md-4 text-center">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <img src="{{ asset('storage/' . $customer->profile_image ?? 'style/img/default-profile.png') }}"
+                        {{-- <img src="{{ asset('storage/' . $customer->profile_image ?? 'style/img/default-profile.png') }}"
                             alt="Foto Profil" class="img-fluid rounded-circle mb-3"
-                            style="width: 150px; height: 150px; object-fit: cover;">
+                            style="width: 150px; height: 150px; object-fit: cover;"> --}}
                         <h5 class="card-title">{{ $customer->name }}</h5>
                         <p class="text-muted">{{ $customer->email }}</p>
                         {{-- <a href="{{ route('profile') }}" class="btn btn-success">Edit Profil</a> --}}

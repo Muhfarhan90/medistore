@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvoiceMail;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Midtrans\Config;
 use Midtrans\Snap;
 
@@ -26,20 +28,33 @@ class TransactionController extends Controller
      */
     public function checkout(Request $request)
     {
-        //
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Keranjang Anda kosong.');
-        };
+            return redirect()->route('cart.view')->with('error', 'Keranjang Anda kosong.');
+        }
+
+        // Validasi data keranjang
+        foreach ($cart as $id => $item) {
+            if (!isset($item['name'], $item['price'], $item['quantity'])) {
+                return redirect()->route('cart.view')->with('error', 'Data keranjang tidak valid.');
+            }
+
+            if (!is_numeric($item['price']) || !is_numeric($item['quantity'])) {
+                return redirect()->route('cart.view')->with('error', 'Harga dan jumlah harus berupa angka.');
+            }
+        }
+
+        // Hitung total gross_amount
+        $grossAmount = collect($cart)->sum(function ($item) {
+            return (int) $item['price'] * (int) $item['quantity'];
+        });
 
         // Simpan transaksi ke database
         $transaction = Transaction::create([
             'order_id' => 'TRX-' . time(),
             'user_id' => Auth::id(),
-            'gross_amount' => collect($cart)->sum(function ($item) {
-                return $item['price'] * $item['quantity'];
-            }),
+            'gross_amount' => $grossAmount,
             'payment_type' => 'prepaid',
             'status' => 'pending',
         ]);
@@ -54,17 +69,17 @@ class TransactionController extends Controller
             ]);
         }
 
-        // Konfigurasi midtrans
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds');
+        // Konfigurasi Midtrans
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = config('midtrans.isSanitized');
+        Config::$is3ds = config('midtrans.is3ds');
 
-        // Data untuk midtrans
+        // Data untuk Midtrans
         $params = [
             'transaction_details' => [
                 'order_id' => $transaction->order_id,
-                'gross_amount' => $transaction->gross_amount,
+                'gross_amount' => (int) $grossAmount,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
@@ -73,33 +88,31 @@ class TransactionController extends Controller
             'item_details' => collect($cart)->map(function ($item, $id) {
                 return [
                     'id' => $id,
-                    'price' => $item['price'],
-                    'quantity' => $item['quantity'],
+                    'price' => (int) $item['price'],
+                    'quantity' => (int) $item['quantity'],
                     'name' => $item['name'],
                 ];
-            })->toArray(),
+            })->values()->toArray(),
         ];
 
         try {
+            // dd($params);
             $snapToken = Snap::getSnapToken($params);
             if (!$snapToken) {
                 throw new \Exception('Snap Token gagal dibuat.');
             }
-            // Simpan snap token ke database
+
+            // Simpan Snap Token ke database
             $transaction->snap_token = $snapToken;
             $transaction->save();
+
             // Kosongkan keranjang
             session()->forget('cart');
 
-            return view('transaction.information', ['transaction' => $transaction]);
+            return view('transactions.show', ['transaction' => $transaction]);
         } catch (\Exception $e) {
-            return redirect()->route('cart.view')->with('error', 'Terjadi kesalahan saat proses checkout' . $e->getMessage());
+            return redirect()->route('cart.view')->with('error', 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage());
         }
-    }
-    public function chechoutInformation($id)
-    {
-        $transaction = Transaction::with('details.product')->findOrFail($id);
-        return view('transaction.information', ['transaction' => $transaction]);
     }
 
     // Fungsi untuk membatalkan transaksi
@@ -130,8 +143,33 @@ class TransactionController extends Controller
     public function show(string $id)
     {
         //
+        // Menampilkan detail transaksi
+        $transaction = Transaction::with('details.product')->findOrFail($id);
+        return view('transactions.show', ['transaction' => $transaction]);
     }
 
+    public function checkoutSuccess(Transaction $transaction)
+    {
+        $transaction->status = 'success';
+        $transaction->save();
+
+        // Kirim email invoice ke pengguna
+        try {
+            Mail::to($transaction->user->email)->send(new InvoiceMail($transaction));
+        } catch (\Exception $e) {
+            return redirect()->route('transactions.index')->with('error', 'Pembayaran berhasil, tetapi gagal mengirim email: ' . $e->getMessage());
+        }
+
+        // Menampilkan halaman sukses setelah pembayaran
+        return view('transactions.success');
+    }
+
+    public function detail(string $id)
+    {
+        // Menampilkan detail transaksi
+        $transaction = Transaction::with('details.product')->findOrFail($id);
+        return view('transactions.detail', ['transaction' => $transaction]);
+    }
     /**
      * Show the form for editing the specified resource.
      */

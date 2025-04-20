@@ -51,7 +51,7 @@
                 onSuccess: function(result) {
                     /* You may add your own js here, this is just example */
                     window.location.href =
-                        '{{ route('transaction.index', ['transaction' => $transaction->id]) }}';
+                        '{{ route('transactions.success', ['transaction' => $transaction]) }}';
                 },
                 // Optional
                 onPending: function(result) {

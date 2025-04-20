@@ -75,7 +75,7 @@
                 </h4>
             </div>
             <!-- Form untuk Checkout -->
-            <form action="{{ route('checkout', $id) }}" method="POST">
+            <form action="{{ route('transactions.checkout', $id) }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-success">Checkout</button>
             </form>

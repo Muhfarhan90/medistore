@@ -60,6 +60,8 @@ Route::put('/cart/update/{id}', [CartController::class, 'updateCart'])->name('ca
 
 // Trasactions
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
-Route::post('/transactions/checkout/{id}', [TransactionController::class, 'checkout'])->name('checkout');
+Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+Route::get('/transactions/{id}/detail', [TransactionController::class, 'detail'])->name('transactions.detail');
+Route::post('/transactions/{id}/checkout', [TransactionController::class, 'checkout'])->name('transactions.checkout');
 Route::post('/transactions/{id}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
-Route::post('/midtrans/callback', [TransactionController::class, 'handleCallback'])->name('midtrans.callback');
+Route::get('/transactions/{transaction}/success', [TransactionController::class, 'checkoutSuccess'])->name('transactions.success');
