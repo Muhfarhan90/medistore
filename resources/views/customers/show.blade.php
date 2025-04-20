@@ -25,9 +25,9 @@
                             <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                             <input type="hidden" name="price" value="{{ $product['price'] }}">
                             @auth
-                                <button type="submit" class="btn btn-success btn-lg">Tambah Keranjang</button>
+                                <button type="submit" class="btn btn-success btn-md">Tambah Keranjang</button>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-success btn-lg">Login untuk membeli</a>
+                                <a href="{{ route('login') }}" class="btn btn-success btn-md">Login untuk membeli</a>
                             @endauth
                         </form>
                     </div>

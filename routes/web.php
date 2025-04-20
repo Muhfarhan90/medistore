@@ -6,6 +6,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -56,4 +57,9 @@ Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::put('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
-Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout');
+
+// Trasactions
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::post('/transactions/checkout/{id}', [TransactionController::class, 'checkout'])->name('checkout');
+Route::post('/transactions/{id}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
+Route::post('/midtrans/callback', [TransactionController::class, 'handleCallback'])->name('midtrans.callback');

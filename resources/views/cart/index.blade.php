@@ -7,13 +7,21 @@
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
         </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
     @endif
 
     <div class="container mt-5">
         <h1>Keranjang Belanja</h1>
+
         @if (empty($cart))
             <p>Keranjang Anda kosong.</p>
-            <a href="{{ route('products.view') }}" class="btn btn-success">Cari Produk</a>
+            @auth
+                <a href="{{ route('products.view') }}" class="btn btn-success">Cari Produk</a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-success">Login untuk menambah keranjang</a>
+            @endauth
         @else
             <div class="table-responsive">
 
@@ -67,7 +75,7 @@
                 </h4>
             </div>
             <!-- Form untuk Checkout -->
-            <form action="{{ route('checkout') }}" method="POST">
+            <form action="{{ route('checkout', $id) }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-success">Checkout</button>
             </form>

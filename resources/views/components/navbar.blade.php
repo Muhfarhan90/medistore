@@ -28,7 +28,7 @@
                             <a class="dropdown-item" href="{{ route('profile') }}">Profil Saya</a>
                         </li>
                         <li class="nav-item">
-                            <a class="dropdown-item" href="{{ route('transactions') }}">Transaksi</a>
+                            <a class="dropdown-item" href="{{ route('transactions.index') }}">Transaksi</a>
                         </li>
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST">
