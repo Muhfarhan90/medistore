@@ -27,15 +27,27 @@
                     <th scope="col">#</th>
                     <th scope="col">Nama</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">Kota</th>
+                    <th scope="col">Paypal_ID</th>
+                    <th scope="col">Kontak</th>
+                    <th scope="col">Tanggal Lahir</th>
+                    <th scope="col">Gender</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($users as $user)
                     <tr>
-                        <td>{{$loop->iteration}}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->address ?? 'N/A' }}</td>
+                        <td>{{ $user->city ?? 'N/A' }}</td>
+                        <td>{{ $user->paypal_id ?? 'N/A' }}</td>
+                        <td>{{ $user->phone ?? 'N/A' }}</td>
+                        <td>{{ $user->date_of_birth ?? 'N/A' }}</td>
+                        <td>{{ ucfirst($user->gender ?? 'N/A') }}</td>
                         <td>
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}"
@@ -44,21 +56,15 @@
                                     @csrf
                                     @method('delete')
                                     <button class="btn btn-danger btn-sm">Hapus</button>
-
                                 </form>
-
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-
-                        <td colspan="3" class="text-center">Belum ada user</td>
+                        <td colspan="9" class="text-center">Belum ada user</td>
                     </tr>
                 @endforelse
-
-
-
             </tbody>
         </table>
     </div>

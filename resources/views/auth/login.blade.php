@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Medistore - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('style/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -95,9 +95,9 @@
                                     <div class="text-center">
                                         <a class="small" href="{{ route('register') }}">Buat Akun Customer!</a>
                                     </div>
-                                    <div class="text-center">
+                                    {{-- <div class="text-center">
                                         <a class="small" href="{{ route('register.vendor') }}">Buat Akun Vendor!</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

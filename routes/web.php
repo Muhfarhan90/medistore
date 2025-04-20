@@ -21,10 +21,12 @@ Route::get('/register-vendor', function () {
 })->name('register.vendor');
 // Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 // Users
 Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('users.create');
 Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('users.update');
 Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
 Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
