@@ -74,11 +74,15 @@
                     ) }}
                 </h4>
             </div>
-            <!-- Form untuk Checkout -->
-            <form action="{{ route('transactions.checkout', $id) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-success">Checkout</button>
-            </form>
+            <div class="d-flex justify-content-between mt-3">
+                <!-- Form untuk Checkout -->
+                <form action="{{ route('transactions.checkout', $id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Checkout</button>
+                </form>
+                <a href="{{ route('products.view') }}" class="btn btn-success">Tambah Produk</a>
+
+            </div>
         @endif
     </div>
 @endsection

@@ -4,6 +4,15 @@
 
 @section('content')
     <div class="container mt-5">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <h1>Detail Transaksi</h1>
 
         <div class="card mt-4">
@@ -67,6 +76,28 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        {{-- Feedback Section --}}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>Feedback Anda</h5>
+            </div>
+            <div class="card-body">
+                @if ($transaction->feedback)
+                    <p>{{ $transaction->feedback }}</p>
+                @else
+                    <form action="{{ route('transactions.feedback', $transaction->id) }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="feedback" class="form-label">Berikan Feedback</label>
+                            <textarea name="feedback" id="feedback" class="form-control" rows="4"
+                                placeholder="Tulis feedback Anda di sini..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kirim Feedback</button>
+                    </form>
+                @endif
             </div>
         </div>
 

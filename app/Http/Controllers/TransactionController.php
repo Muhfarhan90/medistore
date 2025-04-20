@@ -170,6 +170,25 @@ class TransactionController extends Controller
         $transaction = Transaction::with('details.product')->findOrFail($id);
         return view('transactions.detail', ['transaction' => $transaction]);
     }
+
+    public function feedback(Request $request, $id)
+    {
+        $request->validate([
+            'feedback' => 'required|string|max:1000',
+        ]);
+
+        $transaction = Transaction::findOrFail($id);
+
+        // Cek apakah feedback sudah ada
+        if ($transaction->feedback) {
+            return redirect()->route('transactions.detail', $id)->with('error', 'Feedback sudah pernah dikirim.');
+        }
+
+        $transaction->feedback = $request->feedback;
+        $transaction->save();
+
+        return redirect()->route('transactions.detail', $id)->with('success', 'Feedback Anda telah berhasil dikirim.');
+    }
     /**
      * Show the form for editing the specified resource.
      */

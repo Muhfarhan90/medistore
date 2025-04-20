@@ -65,3 +65,5 @@ Route::get('/transactions/{id}/detail', [TransactionController::class, 'detail']
 Route::post('/transactions/{id}/checkout', [TransactionController::class, 'checkout'])->name('transactions.checkout');
 Route::post('/transactions/{id}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
 Route::get('/transactions/{transaction}/success', [TransactionController::class, 'checkoutSuccess'])->name('transactions.success');
+
+Route::post(('/transactions/{id}/feedback'), [TransactionController::class, 'feedback'])->name('transactions.feedback');
