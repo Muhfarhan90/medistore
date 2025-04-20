@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    //
+    // Fungsi untuk menampilkan keranjang belanja
     public function viewCart()
     {
         $cart = session()->get('cart', []);
         return view('cart.index', ['cart' => $cart]);
     }
 
+    // Fungsi untuk menambahkan produk ke keranjang
     public function addToCart(Request $request)
     {
         $product = Product::findOrFail($request->id);

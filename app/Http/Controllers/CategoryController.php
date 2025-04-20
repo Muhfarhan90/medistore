@@ -10,6 +10,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // Fungsi ini digunakan untuk menampilkan daftar kategori
     public function index(Request $request)
     {
         $query = Category::query();
@@ -24,15 +25,15 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+    // Fungsi ini digunakan untuk menampilkan form tambah kategori
     public function create()
     {
         //
         return view('categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Fungsi ini digunakan untuk menyimpan kategori baru
     public function store(Request $request)
     {
         $request->validate([
@@ -55,17 +56,13 @@ class CategoryController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Fungsi ini digunakan untuk menampilkan form edit kategori
     public function edit(Category $category)
     {
         return view('categories.edit', ['category' => $category]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Fungsi ini digunakan untuk memperbarui kategori
     public function update(Request $request, Category $category)
     {
         $request->validate([
@@ -81,9 +78,7 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Category updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Fungsi ini digunakan untuk menghapus kategori
     public function destroy(Category $category)
     {
         //

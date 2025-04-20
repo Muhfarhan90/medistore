@@ -10,9 +10,7 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Fungsi untuk menampilkan daftar produk
     public function index(Request $request)
     {
         $query = Product::query();
@@ -24,9 +22,7 @@ class ProductController extends Controller
         return view('products.index', ['products' => $product]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Fungsi untuk menampilkan form tambah produk
     public function create()
     {
         //
@@ -34,9 +30,7 @@ class ProductController extends Controller
         return view('products.create', ['categories' => $categories]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Fungsi untuk menyimpan produk baru
     public function store(Request $request)
     {
         //
@@ -70,9 +64,7 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Fungsi untuk menampilkan form edit produk
     public function edit(Product $product)
     {
         $categories = Category::query()->where('is_active', 1)->get();
@@ -83,9 +75,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Fungsi untuk memperbarui produk
     public function update(Request $request, Product $product)
     {
         // Validasi input
@@ -134,9 +124,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Fungsi untuk menghapus produk
     public function destroy(Product $product)
     {
         $product->delete();

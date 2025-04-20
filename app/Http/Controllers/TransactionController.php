@@ -13,9 +13,7 @@ use Midtrans\Snap;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Fungsi untuk menampilkan daftar transaksi
     public function index()
     {
         //Mendapatkan daftar transaksi untuk admin
@@ -28,11 +26,7 @@ class TransactionController extends Controller
         return view('transactions.index', ['transactions' => $transactions]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
+    // Fungsi untuk menampilkan halaman checkout
     public function checkout(Request $request)
     {
         $request->validate([
@@ -93,6 +87,7 @@ class TransactionController extends Controller
         return $this->processMidtransPayment($transaction, $cart);
     }
 
+    // Fungsi untuk memproses pembayaran menggunakan Midtrans
     protected function processMidtransPayment($transaction, $cart)
     {
         // Konfigurasi Midtrans
@@ -159,9 +154,7 @@ class TransactionController extends Controller
         //Menyimpan transaksi baru
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Fungsi untuk menampilkan detail transaksi
     public function show(string $id)
     {
         //
@@ -169,7 +162,7 @@ class TransactionController extends Controller
         $transaction = Transaction::with('details.product')->findOrFail($id);
         return view('transactions.show', ['transaction' => $transaction]);
     }
-
+    // Fungsi untuk chechout sukses
     public function checkoutSuccess(Transaction $transaction)
     {
         $transaction->status = 'success';
@@ -186,6 +179,7 @@ class TransactionController extends Controller
         return view('transactions.success');
     }
 
+    // Fungsi untuk menampilkan detail transaksi untuk admin
     public function detail(string $id)
     {
         // Menampilkan detail transaksi untuk admin
@@ -198,6 +192,7 @@ class TransactionController extends Controller
         return view('transactions.detail', ['transaction' => $transaction]);
     }
 
+    // Fungsi untuk mengirim feedback
     public function feedback(Request $request, $id)
     {
         $request->validate([

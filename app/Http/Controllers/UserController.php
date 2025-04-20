@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Fungsi ini untuk menampilkan semua data user
     public function index(Request $request)
     {
         $query = User::query();
@@ -21,18 +19,14 @@ class UserController extends Controller
         return view('users.index', ['users' => $user]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Fungsi ini untuk menampilkan form tambah user
     public function create()
     {
         //
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Fungsi ini untuk menyimpan user baru
     public function store(Request $request)
     {
         $request->validate([
@@ -76,6 +70,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // Fungsi ini untuk memperbarui data user
     public function update(Request $request, User $user)
     {
         $request->validate([
@@ -99,9 +94,7 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Fungsi ini untuk menghapus user
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);

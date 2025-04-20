@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    //
+    // Fungsi ini untuk dashboard admin
     public function index()
     {
         $earnings = Transaction::where('status', 'success')->sum('gross_amount');

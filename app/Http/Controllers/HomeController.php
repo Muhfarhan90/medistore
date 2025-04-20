@@ -9,21 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    // Constructor untuk middleware
     public function __construct()
     {
         $this->middleware('auth')->except('home', 'show', 'view');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+    // Fungsi untuk menampilkan daftar produk
     public function view(Request $request)
     {
         $query = Product::query();
@@ -41,6 +33,7 @@ class HomeController extends Controller
         return view('customers.products', ['products' => $products, 'categories' => $categories]);
     }
 
+    // Fungsi untuk menampilkan halaman utama
     public function home(Request $request)
     {
         $query = Product::query();
@@ -57,6 +50,8 @@ class HomeController extends Controller
         $categories = Category::all();
         return view('customers.home', ['products' => $products, 'categories' => $categories]);
     }
+
+    // Fungsi untuk menampilkan detail produk
     public function show($slug)
     {
         // Cari produk berdasarkan slug
@@ -65,6 +60,8 @@ class HomeController extends Controller
         // Kirim data produk ke view
         return view('customers.show', ['product' => $product]);
     }
+
+    // Fungsi untuk melihat detail profil user
     public function profile()
     {
         $customer = Auth::user();
