@@ -16,6 +16,7 @@ class Transaction extends Model
         'gross_amount',
         'payment_type',
         'status',
+        'shipping_status',
         'snap_token'
     ];
     public function user()

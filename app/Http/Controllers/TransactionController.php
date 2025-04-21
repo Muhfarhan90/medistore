@@ -62,6 +62,7 @@ class TransactionController extends Controller
             'gross_amount' => $grossAmount,
             'payment_type' => $request->payment_type,
             'status' => $request->payment_type === 'cash' ? 'pending' : 'pending', // Status awal untuk cash dan prepaid
+            'shipping_status' => 'pending',
         ]);
 
         // Simpan detail transaksi
@@ -142,6 +143,7 @@ class TransactionController extends Controller
         }
 
         $transaction->status = 'cancelled';
+        $transaction->shipping_status = 'cancelled';
         $transaction->save();
 
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dibatalkan.');
@@ -166,6 +168,7 @@ class TransactionController extends Controller
     public function checkoutSuccess(Transaction $transaction)
     {
         $transaction->status = 'success';
+        $transaction->shipping_status = 'processed';
         $transaction->save();
 
         // Kirim email invoice ke pengguna
@@ -210,6 +213,20 @@ class TransactionController extends Controller
         $transaction->save();
 
         return redirect()->route('transactions.detail', $id)->with('success', 'Feedback Anda telah berhasil dikirim.');
+    }
+
+    // Fungsi untuk update status pengiriman
+    public function updateStatus(Transaction $transaction) {
+        $transaction->shipping_status = 'shipped';
+        $transaction->save();
+        return redirect()->route('transactions.index')->with('success', 'Status pengiriman berhasil diperbarui.');
+    }
+
+    // Fungsi untuk konfirmasi penerimaan pesanan
+    public function confirm(Transaction $transaction) {
+        $transaction->shipping_status = "completed";
+        $transaction->save();
+        return redirect()->route('transactions.index')->with('success', 'Pesanan telah diterima.');
     }
     /**
      * Show the form for editing the specified resource.

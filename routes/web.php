@@ -23,6 +23,7 @@ Route::get('/register-vendor', function () {
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions');
 Route::get('/admin/transactions/{transaction}', [TransactionController::class, 'detail'])->name('admin.transactions.detail');
+Route::post('/admin/transactions/{transaction}/update-status', [TransactionController::class, 'updateStatus'])->name('admin.transactions.update-status');
 // Users
 Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('users.create');
@@ -67,5 +68,5 @@ Route::get('/transactions/{id}/detail', [TransactionController::class, 'detail']
 Route::post('/transactions/checkout', [TransactionController::class, 'checkout'])->name('transactions.checkout');
 Route::post('/transactions/{id}/cancel', [TransactionController::class, 'cancel'])->name('transactions.cancel');
 Route::get('/transactions/{transaction}/success', [TransactionController::class, 'checkoutSuccess'])->name('transactions.success');
-
+Route::post('/transactions/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transactions.confirm');
 Route::post(('/transactions/{id}/feedback'), [TransactionController::class, 'feedback'])->name('transactions.feedback');

@@ -47,32 +47,51 @@
                             @endif
                         </td>
                         <td>
-                            @if ($transaction->status === 'pending')
-                                <span class="badge bg-warning text-dark">Belum Dikirim</span>
-                            @elseif ($transaction->status === 'success')
-                                <span class="badge bg-primary">Dikirim</span>
-                            @elseif ($transaction->status === 'delivered')
-                                <span class="badge bg-success">Diterima</span>
+                            @if ($transaction->shipping_status === 'pending')
+                                <span class="badge bg-warning text-dark">Belum Diproses</span>
+                            @elseif ($transaction->shipping_status === 'processed')
+                                {{-- <span class="badge bg-info">Diproses</span> --}}
+                                <span class="badge bg-info">Diproses</span>
+                            @elseif ($transaction->shipping_status === 'shipped')
+                                <span class="badge bg-secondary">Dikirim</span>
+                            @elseif ($transaction->shipping_status === 'completed')
+                                <span class="badge bg-success">Selesai</span>
+                            @elseif ($transaction->shipping_status === 'cancelled')
+                                <span class="badge bg-danger">Dibatalkan</span>
                             @else
                                 <span class="badge bg-secondary">Tidak Diketahui</span>
                             @endif
                         </td>
                         <td>
-                            @if ($transaction->status === 'pending')
+                            @if ($transaction->shipping_status === 'pending')
                                 {{-- Tombol Batalkan --}}
-                                <form action="{{ route('transactions.cancel', $transaction->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('transactions.cancel', $transaction->id) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm">Batalkan</button>
                                 </form>
 
                                 {{-- Tombol Bayar --}}
-                                <a href="{{ route('transactions.show', $transaction->id) }}" class="btn btn-success btn-sm">Bayar</a>
-                            @elseif ($transaction->status === 'success')
-                                {{-- Tombol Lihat Detail --}}
-                                <a href="{{ route('transactions.detail', $transaction->id) }}" class="btn btn-primary btn-sm">Lihat Detail</a>
-                            @else
-                                <button class="btn btn-secondary btn-sm" disabled>Tidak Tersedia</button>
+                                <a href="{{ route('transactions.show', $transaction->id) }}"
+                                    class="btn btn-success btn-sm">Bayar</a>
+                            @elseif ($transaction->shipping_status === 'processed')
+                                {{-- Tombol Batalkan --}}
+                                <form action="{{ route('transactions.cancel', $transaction->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm">Batalkan</button>
+                                </form>
+                            @elseif ($transaction->shipping_status === 'shipped')
+                                {{-- Tombol Diterima --}}
+                                <form action="{{ route('transactions.confirm', $transaction->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-sm">Diterima</button>
+                                </form>
                             @endif
+                            {{-- Tombol Lihat Detail --}}
+                            <a href="{{ route('transactions.detail', $transaction->id) }}"
+                                class="btn btn-primary btn-sm">Lihat Detail</a>
                         </td>
                     </tr>
                 @empty
