@@ -11,8 +11,14 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// Guest
 Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/products', [HomeController::class, 'view'])->name('products.view');
+Route::get('/products/{slug}', [HomeController::class, 'show'])->name('products.show');
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
 
+// Auth
 Auth::routes();
 
 // Vendor
@@ -51,18 +57,12 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('admin/categories', [CategoryController::class, 'store'])->name('categories.store');
 });
 
-
 // customer
 Route::group(['middleware' => ['auth', 'role:customer']], function () {
-
-    Route::get('/home', [HomeController::class, 'home'])->name('home');
-    Route::get('/products', [HomeController::class, 'view'])->name('products.view');
-    Route::get('/products/{slug}', [HomeController::class, 'show'])->name('products.show');
     Route::get('transactions', [HomeController::class, 'transactions'])->name('transactions');
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
     // Cart
-    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::put('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
