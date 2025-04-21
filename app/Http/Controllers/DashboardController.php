@@ -7,9 +7,15 @@ use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     // Fungsi ini untuk dashboard admin
     public function index()
     {
