@@ -71,7 +71,7 @@
                     <span>Products</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('transactions.index') }}">
+                <a class="nav-link" href="{{ route('admin.transactions') }}">
                     <i class="fas fa-fw fa-exchange-alt"></i>
                     <span>Transaksi</span></a>
             </li>

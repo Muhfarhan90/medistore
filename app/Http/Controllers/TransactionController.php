@@ -219,7 +219,7 @@ class TransactionController extends Controller
     public function updateStatus(Transaction $transaction) {
         $transaction->shipping_status = 'shipped';
         $transaction->save();
-        return redirect()->route('transactions.index')->with('success', 'Status pengiriman berhasil diperbarui.');
+        return redirect()->route('admin.transactions')->with('success', 'Status pengiriman berhasil diperbarui.');
     }
 
     // Fungsi untuk konfirmasi penerimaan pesanan
