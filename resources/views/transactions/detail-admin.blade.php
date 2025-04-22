@@ -34,24 +34,24 @@
                     <p><strong>Total Pembayaran:</strong> Rp{{ number_format($transaction->gross_amount, 0, ',', '.') }}</p>
                     <p><strong>Status Transaksi:</strong>
                         @if ($transaction->status === 'success')
-                            <span class="badge bg-success">Sukses</span>
+                            <span class="badge text-white bg-success">Sukses</span>
                         @elseif ($transaction->status === 'pending')
-                            <span class="badge bg-warning text-dark">Pending</span>
+                            <span class="badge text-white bg-warning text-dark">Pending</span>
                         @elseif ($transaction->status === 'cancelled')
-                            <span class="badge bg-danger">Dibatalkan</span>
+                            <span class="badge text-white bg-danger">Dibatalkan</span>
                         @else
-                            <span class="badge bg-secondary">Tidak Diketahui</span>
+                            <span class="badge text-white bg-secondary">Tidak Diketahui</span>
                         @endif
                     </p>
                     <p><strong>Status Pengiriman:</strong>
                         @if ($transaction->shipping_status === 'pending')
-                            <span class="badge bg-warning text-dark">Belum Dikirim</span>
+                            <span class="badge text-white bg-warning text-dark">Belum Dikirim</span>
                         @elseif ($transaction->shipping_status === 'shipped')
-                            <span class="badge bg-primary">Dikirim</span>
+                            <span class="badge text-white bg-primary">Dikirim</span>
                         @elseif ($transaction->shipping_status === 'delivered')
-                            <span class="badge bg-success">Diterima</span>
+                            <span class="badge text-white bg-success">Diterima</span>
                         @else
-                            <span class="badge bg-secondary">Tidak Diketahui</span>
+                            <span class="badge text-white bg-secondary">Tidak Diketahui</span>
                         @endif
                     </p>
                 </div>
@@ -93,7 +93,7 @@
 
         {{-- Back Button --}}
         <div class="col-12 text-center">
-            <a href="{{ route('transactions.index') }}" class="btn btn-outline-secondary mt-3">← Kembali ke Daftar Transaksi</a>
+            <a href="{{ route('admin.transactions') }}" class="btn btn-outline-secondary mt-3">← Kembali ke Daftar Transaksi</a>
         </div>
     </div>
 </div>

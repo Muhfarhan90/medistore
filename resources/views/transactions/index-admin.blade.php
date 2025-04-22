@@ -46,36 +46,36 @@
                                 <td>
                                     @switch($transaction->status)
                                         @case('success')
-                                            <span class="btn button-sm text-white bg-success">Sukses</span>
+                                            <span class="badge text-white bg-success">Sukses</span>
                                         @break
 
                                         @case('pending')
-                                            <span class="btn button-sm text-white bg-warning text-dark">Pending</span>
+                                            <span class="badge text-white bg-warning text-dark">Pending</span>
                                         @break
 
                                         @case('cancelled')
-                                            <span class="btn button-sm text-white bg-danger">Dibatalkan</span>
+                                            <span class="badge text-white bg-danger">Dibatalkan</span>
                                         @break
 
                                         @default
                                             <span
-                                                class="btn button-sm text-white bg-secondary">{{ ucfirst($transaction->status) }}</span>
+                                                class="badge text-white bg-secondary">{{ ucfirst($transaction->status) }}</span>
                                     @endswitch
                                 </td>
                                 <td>
                                     @if ($transaction->shipping_status === 'pending')
-                                        <span class="btn button-sm text-white bg-warning text-dark">Belum Diproses</span>
+                                        <span class="badge text-white bg-warning text-dark">Belum Diproses</span>
                                     @elseif ($transaction->shipping_status === 'processed')
-                                        {{-- <span class="btn button-sm text-white bg-info">Diproses</span> --}}
-                                        <span class="btn button-sm text-white bg-info">Diproses</span>
+                                        {{-- <span class="badge text-white bg-info">Diproses</span> --}}
+                                        <span class="badge text-white bg-info">Diproses</span>
                                     @elseif ($transaction->shipping_status === 'shipped')
-                                        <span class="btn button-sm text-white bg-secondary">Dikirim</span>
+                                        <span class="badge text-white bg-secondary">Dikirim</span>
                                     @elseif ($transaction->shipping_status === 'completed')
-                                        <span class="btn button-sm text-white bg-success">Selesai</span>
+                                        <span class="badge text-white bg-success">Selesai</span>
                                     @elseif ($transaction->shipping_status === 'cancelled')
-                                        <span class="btn button-sm text-white bg-danger">Dibatalkan</span>
+                                        <span class="badge text-white bg-danger">Dibatalkan</span>
                                     @else
-                                        <span class="btn button-sm text-white bg-secondary">Tidak Diketahui</span>
+                                        <span class="badge text-white bg-secondary">Tidak Diketahui</span>
                                     @endif
                                 </td>
                                 <td>
@@ -89,6 +89,12 @@
                                             method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-outline-success btn-sm">Kirim</button>
+                                        </form>
+                                        <form
+                                            action="{{ route('admin.transactions.update-status', ['transaction' => $transaction->id]) }}"
+                                            method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-success btn-sm">Batalkan</button>
                                         </form>
                                     @endif
                                 </td>

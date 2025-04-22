@@ -30,7 +30,7 @@ class TransactionController extends Controller
     public function checkout(Request $request)
     {
         $request->validate([
-            'payment_type' => 'required|in:prepaid,cash',
+            'payment_type' => 'required|in:prepaid,postpaid',
         ]);
 
         $cart = session()->get('cart', []);
@@ -61,7 +61,7 @@ class TransactionController extends Controller
             'user_id' => Auth::id(),
             'gross_amount' => $grossAmount,
             'payment_type' => $request->payment_type,
-            'status' => $request->payment_type === 'cash' ? 'pending' : 'pending', // Status awal untuk cash dan prepaid
+            'status' => $request->payment_type === 'postpaid' ? 'pending' : 'pending', // Status awal untuk cash dan prepaid
             'shipping_status' => 'pending',
         ]);
 
@@ -79,7 +79,7 @@ class TransactionController extends Controller
         session()->forget('cart');
 
         // Jika pembayaran menggunakan cash (postpaid)
-        if ($request->payment_type === 'cash') {
+        if ($request->payment_type === 'postpaid') {
             return redirect()->route('transactions.success', $transaction->id)
                 ->with('success', 'Pesanan Anda berhasil dibuat. Silakan lakukan pembayaran tunai.');
         }
