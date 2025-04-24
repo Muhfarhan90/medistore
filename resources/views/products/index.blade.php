@@ -46,8 +46,7 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-end gap-2">
-                                <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                    class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-primary btn-sm">Edit</a>
                                 <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="post">
                                     @csrf
                                     @method('delete')
